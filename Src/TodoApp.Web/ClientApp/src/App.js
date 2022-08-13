@@ -10,7 +10,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <Container fluid>
+      <Container fluid="md">
         <Row>
           <Col>
           <TodoContainer></TodoContainer>  
