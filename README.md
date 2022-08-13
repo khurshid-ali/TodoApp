@@ -1,5 +1,9 @@
 # TodoApp
 
+### Running the application
+dotnet run 
+
+direct your browser to https://localhost:44497/
 
 ### Requirements
 

@@ -32,7 +32,38 @@ function ItemsList({items, editItem, deleteItem, completeItem}) {
 
     if (edit.id) 
     {
-        return <ItemEditor edit={edit} onSubmit={submitUpdate}/>;
+        return (
+            <Stack style={stackStyle}>
+            {items.map((item) => (
+
+                <Alert key={item.id} variant={item.isComplete? 'primary':'success'}>
+                    {edit.id === item.id ? 
+                        <ItemEditor edit={edit} onSubmit={submitUpdate}/>
+                    :
+                        <Row>
+                            <Col className=''><div className='fw-bold'>{item.description}</div></Col>
+                            <Col className='align-content-end'>
+                            <ButtonGroup className="align-content-end">
+                                {!item.isComplete ? 
+                                    <>
+                                        <Button variant='outline-success' onClick={() => completeItem(item.id)}><FaCheckSquare /></Button>
+                                        <Button variant='outline-primary' onClick={() => setEdit({id:item.id, description:item.description})}><FaEdit /></Button>
+                                    </>
+                                    :
+                                    null
+                                }                            
+                                <Button variant='outline-danger' onClick={() => deleteItem(item.id)}><FaTrashAlt /></Button>
+                            </ButtonGroup>
+                            </Col>
+                        </Row>
+                    }
+                </Alert>
+                
+                
+            ))}
+        </Stack>
+
+        );
     }
 
     return (
