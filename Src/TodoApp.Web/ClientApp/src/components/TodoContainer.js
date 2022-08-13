@@ -8,14 +8,16 @@ function TodoContainer(props) {
     
     const stackStyle = {
         marginTop:'20px',
-        backgroundColor:'darkblue',
+        backgroundColor:'DarkBlue',
         padding:'10px',
         borderRadius:'15px'
     };
 
     const headingStyle = {
         color:"white",
-        FontFace:'Bold'
+        FontFace:'Bold',
+        width:'100%',
+        textAlign:'center'        
     }
 
     const setSortedItems = itemsList => {
@@ -148,8 +150,12 @@ function TodoContainer(props) {
 
     return (
         <Stack style={stackStyle}>
-            <div fill className="title" style={headingStyle}>Add an item to the Todo List.</div>
-            <ItemEditor onAdd={addItem}/>
+            <div style={headingStyle}>
+                <h1>Add an item to the Todo List.</h1>
+            </div>
+            <div style={{textAlign:'center', marginTop:'15px'}}>
+                <ItemEditor onAdd={addItem}/>
+            </div>            
             <ItemsList 
                 items={items} 
                 editItem={editItem}

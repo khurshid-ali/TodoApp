@@ -15,11 +15,15 @@ public static class DbInitializer
 
         var items = new List<TodoItem>();
         items.Add(new TodoItem(){
-            Description ="test item 1"
+            Description ="Mow the lawn."
         });
 
         items.Add(new TodoItem(){
-            Description ="test item 2"
+            Description ="Walk the dog."
+        });
+
+        items.Add(new TodoItem(){
+            Description ="Wash the car."
         });
 
 

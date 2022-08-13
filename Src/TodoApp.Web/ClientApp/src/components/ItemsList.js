@@ -12,16 +12,13 @@ import Tooltip from 'react-bootstrap/Tooltip';
 function ItemsList({items, editItem, deleteItem, completeItem}) {
     const [edit, setEdit] = useState({id:null, description:''});
 
-    // const spanStyle = {
-    //     paddingTop:'10px'
-    // };
-
+    
     const stackStyle = {
         padding:'10px',
         border: 'solid 1px lightGray',
         marginTop: '15px',
         borderRadius:'15px',
-        backgroundColor: 'black'
+        backgroundColor:'black'
     };
 
     const submitUpdate = value => {
@@ -39,8 +36,8 @@ function ItemsList({items, editItem, deleteItem, completeItem}) {
                         <ItemEditor edit={edit} onSubmit={submitUpdate}/>
                     :
                         <>
-                            <div className='float-start'>
-                                {item.description}
+                            <div className='float-start fw-bolder'>
+                                <div className='align-items-center' style={{fontSize:'22px'}}>{item.description}</div>
                             </div>
                             <div className='float-end'>
                                 <ButtonGroup >
@@ -55,7 +52,9 @@ function ItemsList({items, editItem, deleteItem, completeItem}) {
                                                      </Tooltip>
                                                 }   
                                             >
-                                                <Button variant='link' onClick={() => completeItem(item.id)} aria-label='Complete'><FaCheckSquare /></Button>
+                                                <Button variant='link' onClick={() => completeItem(item.id)} aria-label='Complete'>
+                                                    <FaCheckSquare />
+                                                </Button>
                                             </OverlayTrigger>
                                             <OverlayTrigger
                                                 key='edit'
@@ -66,7 +65,9 @@ function ItemsList({items, editItem, deleteItem, completeItem}) {
                                                      </Tooltip>
                                                 }  
                                             >
-                                                <Button variant='link' onClick={() => setEdit({id:item.id, description:item.description})} aria-label='Edit'><FaEdit /></Button>
+                                                <Button variant='link' onClick={() => setEdit({id:item.id, description:item.description})} aria-label='Edit'>
+                                                    <FaEdit/>
+                                                </Button>
                                             </OverlayTrigger>
                                         </>
                                         :
@@ -81,7 +82,9 @@ function ItemsList({items, editItem, deleteItem, completeItem}) {
                                              </Tooltip>
                                         }                                    
                                     >
-                                        <Button variant='link' onClick={() => deleteItem(item.id)} aria-label='Delete'><FaTrashAlt /></Button>
+                                        <Button variant='link'  onClick={() => deleteItem(item.id)} aria-label='Delete'>
+                                            <FaTrashAlt />
+                                        </Button>
                                     </OverlayTrigger>                            
                                 </ButtonGroup>
                             </div>

@@ -47,12 +47,13 @@ function ItemEditor(props) {
     return (
 
         
-            <Form onSubmit={onFormSubmit}>
+            <Form onSubmit={onFormSubmit} style={{width:'100%'}}>
                 {props.edit? 
                     (
-                        <ButtonGroup>
+                        
+                        <ButtonGroup style={{width:'100%'}}>
                             <Form.Control 
-                                className='lg'
+                                className='form-control-lg'
                                 type='text' 
                                 placeholder='a todo item'
                                 ref={descRef}
@@ -81,13 +82,14 @@ function ItemEditor(props) {
                     )
                     :
                     (
-                        <ButtonGroup>
+                        <ButtonGroup style={{width:'85%'}}>
                             <Form.Control 
-                                className='lg'
+                                className='form-control-lg'
                                 type='text' 
                                 placeholder='a todo item'
                                 ref={descRef}
                                 onChange={onTxtChanged}
+                                
                             />
                             <OverlayTrigger
                                 key='add'
