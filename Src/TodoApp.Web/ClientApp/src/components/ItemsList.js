@@ -1,12 +1,8 @@
 import React, {useState} from 'react';
-
-import ListGroup from 'react-bootstrap/ListGroup';
-import Badge from 'react-bootstrap/Badge';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import {FaEdit, FaTrashAlt, FaCheckSquare} from 'react-icons/fa';
 import Button from 'react-bootstrap/esm/Button';
-import ToggleButton from 'react-bootstrap/ToggleButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Alert from 'react-bootstrap/Alert';
 import Stack from 'react-bootstrap/Stack';
@@ -16,9 +12,9 @@ import ItemEditor from './ItemEditor';
 function ItemsList({items, editItem, deleteItem, completeItem}) {
     const [edit, setEdit] = useState({id:null, description:''});
 
-    const spanStyle = {
-        paddingTop:'10px'
-    };
+    // const spanStyle = {
+    //     paddingTop:'10px'
+    // };
 
     const stackStyle = {
         padding:'10px',
