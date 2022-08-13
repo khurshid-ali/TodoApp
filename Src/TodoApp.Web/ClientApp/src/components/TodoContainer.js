@@ -1,9 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import ItemEditor from './ItemEditor';
 import ItemsList from './ItemsList';
+import Stack from 'react-bootstrap/Stack';
 
 function TodoContainer(props) {
     const [items, setItems] = useState([]);
+    
+    const stackStyle = {
+        marginTop:'20px',
+        backgroundColor:'darkblue',
+        padding:'10px',
+        borderRadius:'15px'
+    };
 
     useEffect(() => {
         async function getData() {
@@ -15,7 +23,9 @@ function TodoContainer(props) {
         getData();
     }, []);
 
-    
+    /*
+        addItem()
+    */
     const addItem = async item => {
         const response = await fetch('todo', 
             {
@@ -29,43 +39,102 @@ function TodoContainer(props) {
                 })
             }
         );
-        const createdItem = await response.json();
-        const newItems = [createdItem, ...items];
-        setItems(newItems);
+
+        if (response.ok){
+            const createdItem = await response.json();
+            const newItems = [createdItem, ...items];
+            setItems(newItems);
+        }
+        else {
+            console.log("Could not add item to db. Error: " + response.statusText);
+        }
+        
     };
 
-    const editItem = item => {
-        console.log("Edit item " + item);
+    /*
+        editItem()
+    */
+    const editItem = async item => {
+        const patchResp = await fetch('todo/' + item.id, {
+            method:'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify([
+                {Key: 'Description',Value: item.description}
+            ])
+        });
+
+        if (patchResp.ok){
+            const entity = await patchResp.json(); 
+            let updatedItems = [...items].filter(x => x.id !== item.id);
+            updatedItems.push(entity);
+            setItems(updatedItems);
+
+        }
+        else {
+            console.log("Could not update item with id " + item.id + " error: " + patchResp.statusText);
+        }
+        console.log("Edit item " + item.id + "value:" + item.description);
     };
 
+    /*
+        deleteItem()
+    */
     const deleteItem = async id => {
 
         const delResp = await fetch('todo/'+id, {
             method:'DELETE'
         });
-        
-        console.log(delResp);
 
-        console.log("delete item " + id);
-        const newArray = [...items].filter(x => x.id !== id);
-        setItems(newArray);
+        console.log(delResp);
+        
+        if (delResp.ok)
+        {
+            console.log("delete item " + id);
+            const newArray = [...items].filter(x => x.id !== id);
+            setItems(newArray);
+        }
+        else 
+        {
+            console.log('Could not delete item with id ' + id + '. Error : ' + delResp.statusText);
+        }
     };
 
-    const completeItem = id => {
-        console.log("complete item " + id);
-        let updatedItems = items.map(item => {
-            if(item.id === id){
-                item.IsComplete = !item.IsComplete;
-            }
-            return item;
+    /*
+        completeItem()
+    */
+    const completeItem = async id => {
+
+        const completeResp = await fetch('todo/' + id, {
+            method:'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify([
+                {Key: 'IsComplete',Value: 'true'}
+            ])
         });
-        setItems(updatedItems)
+
+        if (completeResp.ok) {
+            console.log("complete item " + id);
+            const updatedItem = await completeResp.json();
+            let updatedItems = [...items].filter(x => x.id !== id);
+            updatedItems.push(updatedItem);
+            setItems(updatedItems);           
+        }
+        else 
+        {
+            console.log("Could not update item with id " + id + " error: " + completeResp.statusText);
+        }        
     };
 
 
 
     return (
-        <div>
+        <Stack style={stackStyle}>
             <ItemEditor onAdd={addItem}/>
             <ItemsList 
                 items={items} 
@@ -73,7 +142,7 @@ function TodoContainer(props) {
                 deleteItem={deleteItem}
                 completeItem={completeItem}
             />
-        </div>
+        </Stack>
     )
 }
 

@@ -1,33 +1,69 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
+import React, {useState} from 'react';
+
+import ListGroup from 'react-bootstrap/ListGroup';
+import Badge from 'react-bootstrap/Badge';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import {FaEdit, FaTrashAlt, FaCheckSquare} from 'react-icons/fa';
+import Button from 'react-bootstrap/esm/Button';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Alert from 'react-bootstrap/Alert';
-import {FaEdit, FaTrashAlt, FaCheckSquare} from 'react-icons/fa';
+import Stack from 'react-bootstrap/Stack';
+import ItemEditor from './ItemEditor';
 
 
 function ItemsList({items, editItem, deleteItem, completeItem}) {
+    const [edit, setEdit] = useState({id:null, description:''});
 
     const spanStyle = {
         paddingTop:'10px'
     };
 
+    const stackStyle = {
+        padding:'10px',
+        border: 'solid 1px lightGray',
+        marginTop: '15px',
+        borderRadius:'15px',
+        backgroundColor: 'black'
+    };
 
-    return items.map((item) => (
-        <div key={item.id}>
-            <div style={spanStyle}>
-                <Alert variant={item.isComplete? 'secondary':'primary'}>
-                    <span>
-                        {item.description}
-                    </span>
-                    <ButtonGroup>
-                        <Button onClick={() => completeItem(item.id)}><FaCheckSquare /></Button>
-                        <Button onClick={() => editItem(item.id)}><FaEdit /></Button>
-                        <Button onClick={() => deleteItem(item.id)}><FaTrashAlt /></Button>
-                    </ButtonGroup>
+    const submitUpdate = value => {
+        editItem(value);
+        console.log('submit update ' + value);
+        setEdit({id:null, description:''});
+    };
+
+    if (edit.id) 
+    {
+        return <ItemEditor edit={edit} onSubmit={submitUpdate}/>;
+    }
+
+    return (
+
+        <Stack style={stackStyle}>
+            {items.map((item) => (
+                <Alert key={item.id} variant={item.isComplete? 'primary':'success'}>
+                    <Row>
+                        <Col className=''><div className='fw-bold'>{item.description}</div></Col>
+                        <Col className='align-content-end'>
+                        <ButtonGroup className="align-content-end">
+                            {!item.isComplete ? 
+                                <>
+                                    <Button variant='outline-success' onClick={() => completeItem(item.id)}><FaCheckSquare /></Button>
+                                    <Button variant='outline-primary' onClick={() => setEdit({id:item.id, description:item.description})}><FaEdit /></Button>
+                                </>
+                                :
+                                null
+                            }                            
+                            <Button variant='outline-danger' onClick={() => deleteItem(item.id)}><FaTrashAlt /></Button>
+                        </ButtonGroup>
+                        </Col>
+                    </Row>
                 </Alert>
-            </div>
-        </div>
-    ));
+            ))}
+        </Stack>
+    );
 }
 
 export default ItemsList

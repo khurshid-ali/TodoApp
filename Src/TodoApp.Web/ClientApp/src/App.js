@@ -11,12 +11,7 @@ export default class App extends Component {
   render() {
     return (
       <Container>
-        <Row></Row>
-        <Row className='justify-content-md-center'>
-          <Col>
-            <TodoContainer></TodoContainer>
-          </Col>
-        </Row>         
+        <TodoContainer></TodoContainer>   
       </Container>
      
 
