@@ -148,7 +148,7 @@ function TodoContainer(props) {
 
     return (
         <Stack style={stackStyle}>
-            <div fill className="" style={headingStyle}>Add an item to the Todo List.</div>
+            <div fill className="title" style={headingStyle}>Add an item to the Todo List.</div>
             <ItemEditor onAdd={addItem}/>
             <ItemsList 
                 items={items} 

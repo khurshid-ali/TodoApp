@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import {FaEdit, FaTrashAlt, FaCheckSquare} from 'react-icons/fa';
 import Button from 'react-bootstrap/esm/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
