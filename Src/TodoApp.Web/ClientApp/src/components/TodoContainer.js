@@ -18,11 +18,19 @@ function TodoContainer(props) {
         FontFace:'Bold'
     }
 
+    const setSortedItems = itemsList => {
+        var sorted = [...itemsList.filter(x => !x.isComplete).sort((a,b)=>(
+            a.id < b.id? 1:-1
+        ))];
+
+        setItems([...sorted, ...itemsList.filter(x => x.isComplete)])
+    };
+
     useEffect(() => {
         async function getData() {
             const response = await fetch('todo');
             const data = await response.json();
-            setItems(data);
+            setSortedItems(data);
         };
 
         getData();
@@ -48,7 +56,7 @@ function TodoContainer(props) {
         if (response.ok){
             const createdItem = await response.json();
             const newItems = [createdItem, ...items];
-            setItems(newItems);
+            setSortedItems(newItems);
         }
         else {
             console.log("Could not add item to db. Error: " + response.statusText);
@@ -75,7 +83,7 @@ function TodoContainer(props) {
             const entity = await patchResp.json(); 
             let updatedItems = [...items].filter(x => x.id !== item.id);
             updatedItems.push(entity);
-            setItems(updatedItems);
+            setSortedItems(updatedItems);
 
         }
         else {
@@ -99,7 +107,7 @@ function TodoContainer(props) {
         {
             console.log("delete item " + id);
             const newArray = [...items].filter(x => x.id !== id);
-            setItems(newArray);
+            setSortedItems(newArray);
         }
         else 
         {
@@ -128,7 +136,7 @@ function TodoContainer(props) {
             const updatedItem = await completeResp.json();
             let updatedItems = [...items].filter(x => x.id !== id);
             updatedItems.push(updatedItem);
-            setItems(updatedItems);           
+            setSortedItems(updatedItems);           
         }
         else 
         {
