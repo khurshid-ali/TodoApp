@@ -7,6 +7,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Alert from 'react-bootstrap/Alert';
 import Stack from 'react-bootstrap/Stack';
 import ItemEditor from './ItemEditor';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 
 function ItemsList({items, editItem, deleteItem, completeItem}) {
@@ -33,28 +35,62 @@ function ItemsList({items, editItem, deleteItem, completeItem}) {
     return (
         <Stack style={stackStyle}>
             {items.map((item) => (
-                <Alert key={item.id} variant={item.isComplete? 'primary':'success'}>
+                <Alert key={item.id} variant={item.isComplete? 'secondary':'success'}>
                     {edit.id === item.id ? 
                         //if in edit mode show the editor
                         <ItemEditor edit={edit} onSubmit={submitUpdate}/>
                     :
-                        //show the normal view
-                        <Row>
-                            <Col className=''><div className='fw-bold'>{item.description}</div></Col>
-                            <Col className='align-content-end'>
-                            <ButtonGroup className="align-content-end">
-                                {!item.isComplete ? 
-                                    <>
-                                        <Button variant='outline-success' onClick={() => completeItem(item.id)}><FaCheckSquare /></Button>
-                                        <Button variant='outline-primary' onClick={() => setEdit({id:item.id, description:item.description})}><FaEdit /></Button>
-                                    </>
-                                    :
-                                    null
-                                }                            
-                                <Button variant='outline-danger' onClick={() => deleteItem(item.id)}><FaTrashAlt /></Button>
-                            </ButtonGroup>
-                            </Col>
-                        </Row>
+                        <>
+                            <div className='float-start'>
+                                {item.description}
+                            </div>
+                            <div className='float-end'>
+                                <ButtonGroup >
+                                    {!item.isComplete ? 
+                                        <>
+                                            <OverlayTrigger
+                                                key='complete'
+                                                placement='left'
+                                                overlay={
+                                                    <Tooltip id={`tooltip-complete`}>
+                                                        <strong>Mark Complete</strong>.
+                                                     </Tooltip>
+                                                }   
+                                            >
+                                                <Button variant='link' onClick={() => completeItem(item.id)} aria-label='Complete'><FaCheckSquare /></Button>
+                                            </OverlayTrigger>
+                                            <OverlayTrigger
+                                                key='edit'
+                                                placement='bottom'
+                                                overlay={
+                                                    <Tooltip id={`tooltip-edit`}>
+                                                        <strong>Edit Item</strong>.
+                                                     </Tooltip>
+                                                }  
+                                            >
+                                                <Button variant='link' onClick={() => setEdit({id:item.id, description:item.description})} aria-label='Edit'><FaEdit /></Button>
+                                            </OverlayTrigger>
+                                        </>
+                                        :
+                                        null
+                                    }
+                                    <OverlayTrigger
+                                        key='delete'
+                                        placement='right'
+                                        overlay={
+                                            <Tooltip id={`tooltip-delete`}>
+                                                <strong>Delete Item</strong>.
+                                             </Tooltip>
+                                        }                                    
+                                    >
+                                        <Button variant='link' onClick={() => deleteItem(item.id)} aria-label='Delete'><FaTrashAlt /></Button>
+                                    </OverlayTrigger>                            
+                                </ButtonGroup>
+                            </div>
+                        </>
+                        
+
+
                     }
                 </Alert>
             ))}

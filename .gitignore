@@ -455,3 +455,5 @@ $RECYCLE.BIN/
 
 #dbfile 
 *.db
+*.db-shm
+*.db-wal

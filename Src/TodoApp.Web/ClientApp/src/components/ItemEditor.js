@@ -3,6 +3,8 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 /*
 Item editor component
 */
@@ -45,7 +47,7 @@ function ItemEditor(props) {
 
     return (
 
-        <Row className='text-align-center'>
+        
             <Form onSubmit={onFormSubmit}>
                 {props.edit? 
                     (
@@ -58,14 +60,24 @@ function ItemEditor(props) {
                                 onChange={onTxtChanged}
                                 value={description}
                             />
+                            <OverlayTrigger
+                                key='update'
+                                placement='right'
+                                overlay={
+                                    <Tooltip id={`tooltip-update`}>
+                                        <strong>Update Item</strong>.
+                                        </Tooltip>
+                                }                                    
+                            >
+                                <Button 
+                                    variant='primary' 
+                                    type='submit' 
+                                    onClick={onAddClicked}
+                                    > 
+                                    Done
+                                </Button>
+                            </OverlayTrigger>
                             
-                            <Button 
-                                variant='primary' 
-                                type='submit' 
-                                onClick={onAddClicked}
-                                > 
-                                Update
-                            </Button>
                         </ButtonGroup>
                     )
                     :
@@ -78,15 +90,25 @@ function ItemEditor(props) {
                                 ref={descRef}
                                 onChange={onTxtChanged}
                             />
-                            
-                            <Button 
-                                variant={isDisabled? 'secondary':'primary'} 
-                                type='submit' 
-                                disabled={isDisabled}
-                                onClick={onAddClicked}
+                            <OverlayTrigger
+                                key='add'
+                                placement='right'
+                                overlay={
+                                    <Tooltip id={`tooltip-add`}>
+                                        <strong>Add Item</strong>.
+                                        </Tooltip>
+                                }                                    
+                            >
+                                <Button 
+                                    variant={isDisabled? 'secondary':'primary'} 
+                                    type='submit' 
+                                    disabled={isDisabled}
+                                    onClick={onAddClicked}
                                 > 
-                                Add
-                            </Button>
+                                    Add
+                                </Button>
+                            </OverlayTrigger>
+                            
                         </ButtonGroup>      
                     )
                 }
@@ -94,7 +116,7 @@ function ItemEditor(props) {
 
                       
             </Form>
-        </Row>
+        
         
     )
 }

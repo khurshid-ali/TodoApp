@@ -13,6 +13,11 @@ function TodoContainer(props) {
         borderRadius:'15px'
     };
 
+    const headingStyle = {
+        color:"white",
+        FontFace:'Bold'
+    }
+
     useEffect(() => {
         async function getData() {
             const response = await fetch('todo');
@@ -135,6 +140,7 @@ function TodoContainer(props) {
 
     return (
         <Stack style={stackStyle}>
+            <div fill className="" style={headingStyle}>Add an item to the Todo List.</div>
             <ItemEditor onAdd={addItem}/>
             <ItemsList 
                 items={items} 
