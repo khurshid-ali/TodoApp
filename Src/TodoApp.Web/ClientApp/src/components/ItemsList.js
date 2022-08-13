@@ -30,16 +30,15 @@ function ItemsList({items, editItem, deleteItem, completeItem}) {
         setEdit({id:null, description:''});
     };
 
-    if (edit.id) 
-    {
-        return (
-            <Stack style={stackStyle}>
+    return (
+        <Stack style={stackStyle}>
             {items.map((item) => (
-
                 <Alert key={item.id} variant={item.isComplete? 'primary':'success'}>
                     {edit.id === item.id ? 
+                        //if in edit mode show the editor
                         <ItemEditor edit={edit} onSubmit={submitUpdate}/>
                     :
+                        //show the normal view
                         <Row>
                             <Col className=''><div className='fw-bold'>{item.description}</div></Col>
                             <Col className='align-content-end'>
@@ -57,36 +56,6 @@ function ItemsList({items, editItem, deleteItem, completeItem}) {
                             </Col>
                         </Row>
                     }
-                </Alert>
-                
-                
-            ))}
-        </Stack>
-
-        );
-    }
-
-    return (
-
-        <Stack style={stackStyle}>
-            {items.map((item) => (
-                <Alert key={item.id} variant={item.isComplete? 'primary':'success'}>
-                    <Row>
-                        <Col className=''><div className='fw-bold'>{item.description}</div></Col>
-                        <Col className='align-content-end'>
-                        <ButtonGroup className="align-content-end">
-                            {!item.isComplete ? 
-                                <>
-                                    <Button variant='outline-success' onClick={() => completeItem(item.id)}><FaCheckSquare /></Button>
-                                    <Button variant='outline-primary' onClick={() => setEdit({id:item.id, description:item.description})}><FaEdit /></Button>
-                                </>
-                                :
-                                null
-                            }                            
-                            <Button variant='outline-danger' onClick={() => deleteItem(item.id)}><FaTrashAlt /></Button>
-                        </ButtonGroup>
-                        </Col>
-                    </Row>
                 </Alert>
             ))}
         </Stack>
