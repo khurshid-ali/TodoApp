@@ -5,7 +5,7 @@ using TodoApp.Domain.Interfaces;
 namespace TodoApp.Domain.Data
 {
     /// <summary>
-    /// 
+    /// Todo Databaes context.
     /// </summary>
     public class TodoContext : DbContext
     {

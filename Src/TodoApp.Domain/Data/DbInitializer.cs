@@ -2,6 +2,10 @@ using TodoApp.Domain.Models;
 
 namespace TodoApp.Domain.Data;
 
+/// <summary>
+/// Data base initializer. 
+/// Initialized the data base with 3 todo items.
+/// </summary>
 public static class DbInitializer
 {
     public static void Initialize(TodoContext context)
