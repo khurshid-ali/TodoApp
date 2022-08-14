@@ -2,9 +2,11 @@ import React, {useState, useEffect} from 'react';
 import ItemEditor from './ItemEditor';
 import ItemsList from './ItemsList';
 import Stack from 'react-bootstrap/Stack';
+import Alert from 'react-bootstrap/Alert';
 
 function TodoContainer(props) {
     const [items, setItems] = useState([]);
+    const [errors, setError] = useState('');
     
     const stackStyle = {
         marginTop:'20px',
@@ -31,8 +33,15 @@ function TodoContainer(props) {
     useEffect(() => {
         async function getData() {
             const response = await fetch('todo');
-            const data = await response.json();
-            setSortedItems(data);
+            if (response.ok){
+                const data = await response.json();
+                setSortedItems(data);
+            }
+            else {
+                console.log("Errors occured while retrieveing the list.")
+                setError("Error: Could not retrieve List.");
+            }
+            
         };
 
         getData();
@@ -61,6 +70,7 @@ function TodoContainer(props) {
             setSortedItems(newItems);
         }
         else {
+            setError("Error: Could not add item to db.");
             console.log("Could not add item to db. Error: " + response.statusText);
         }
         
@@ -89,6 +99,7 @@ function TodoContainer(props) {
 
         }
         else {
+            setError('Error: Could not update item.');
             console.log("Could not update item with id " + item.id + " error: " + patchResp.statusText);
         }
         console.log("Edit item " + item.id + "value:" + item.description);
@@ -113,6 +124,7 @@ function TodoContainer(props) {
         }
         else 
         {
+            setError('Error: Could not delete item.');
             console.log('Could not delete item with id ' + id + '. Error : ' + delResp.statusText);
         }
     };
@@ -142,6 +154,7 @@ function TodoContainer(props) {
         }
         else 
         {
+            setError('Error: Could not mark item as complete.');
             console.log("Could not update item with id " + id + " error: " + completeResp.statusText);
         }        
     };
@@ -155,13 +168,23 @@ function TodoContainer(props) {
             </div>
             <div style={{textAlign:'center', marginTop:'15px'}}>
                 <ItemEditor onAdd={addItem}/>
-            </div>            
-            <ItemsList 
-                items={items} 
-                editItem={editItem}
-                deleteItem={deleteItem}
-                completeItem={completeItem}
-            />
+            </div>
+
+            {errors ? (
+                    <div style={{marginTop:'10px',paddingTop:'20px'}}>
+                        <Alert variant='danger'>{errors}</Alert>
+                    </div>
+                ):            
+                null       
+            }
+            {items.length > 0 ? 
+                <ItemsList 
+                    items={items} 
+                    editItem={editItem}
+                    deleteItem={deleteItem}
+                    completeItem={completeItem}
+                /> 
+            : null }
         </Stack>
     )
 }
