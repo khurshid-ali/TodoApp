@@ -13,7 +13,7 @@ namespace TodoApp.Domain.Data
         /// TodoItems DBSet
         /// </summary>
         /// <value></value>
-        public DbSet<TodoItem> TodoItems {get;set;} = null!;
+        public virtual DbSet<TodoItem> TodoItems {get;set;} = null!;
 
     
         /// <summary>
@@ -21,6 +21,14 @@ namespace TodoApp.Domain.Data
         /// </summary>
         /// <param name="options"></param>
         public TodoContext(DbContextOptions<TodoContext> options):base(options)
+        {
+            
+        }
+
+        /// <summary>
+        /// For testing
+        /// </summary>
+        public TodoContext()
         {
             
         }
