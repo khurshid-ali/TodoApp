@@ -41,7 +41,7 @@ function TodoContainer(props) {
                     setSortedItems(data);
                 }
                 else {
-                    throw "Errors occured while retrieveing the list.";
+                    throw new Error("Errors occured while retrieveing the list.");
                 }
 
             } catch (exc) {
@@ -71,7 +71,7 @@ function TodoContainer(props) {
             );
 
             if (!response.ok){
-                throw 'Error: Could not add item to db.';
+                throw new Error('Error: Could not add item to db.');
             }
             
 
@@ -103,7 +103,7 @@ function TodoContainer(props) {
     
             if (!patchResp.ok){
                 
-                throw 'Error: Could not update item.';
+                throw new Error('Error: Could not update item.');
             }
             
             const entity = await patchResp.json(); 
@@ -127,7 +127,7 @@ function TodoContainer(props) {
             
             if (!delResp.ok)
             {
-                throw 'Error: Could not delete item.';
+                throw new Error('Error: Could not delete item.');
             }
             
 
@@ -157,7 +157,7 @@ function TodoContainer(props) {
             });
     
             if (!completeResp.ok) {
-                throw 'Error: Could not mark item with id ' + id +  ' as complete.';
+                throw new Error('Error: Could not mark item with id ' + id +  ' as complete.');
             }
             
             
@@ -174,8 +174,8 @@ function TodoContainer(props) {
 
     const handleError = error => {
         setShow(true);
-        setError(error);
-        console.error(error);
+        setError(error.message);
+        console.error(error.message);
     };
 
 
