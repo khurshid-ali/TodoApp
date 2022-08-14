@@ -4,7 +4,7 @@ namespace TodoApp.Domain.Data;
 
 /// <summary>
 /// Data base initializer. 
-/// Initialized the data base with 3 todo items.
+/// Initializes the database with 3 todo items.
 /// </summary>
 public static class DbInitializer
 {
