@@ -2,7 +2,7 @@ using System.Net;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Web.Data;
-using TodoApp.Web.Exceptions;
+using TodoApp.Domain.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 

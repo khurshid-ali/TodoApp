@@ -1,6 +1,4 @@
-using System.Text.Json;
-
-namespace TodoApp.Web.Exceptions;
+namespace TodoApp.Domain.Exceptions;
 
 public class TodoAppExceptionBase : Exception
 {

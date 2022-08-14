@@ -1,6 +1,8 @@
 using System.Text.Json;
 
-namespace TodoApp.Web.Exceptions;
+namespace TodoApp.Domain.Exceptions;
+
+
 public static class ExceptionExtension
 {
     public static string ToJson(this Exception ex, int errorCode)
