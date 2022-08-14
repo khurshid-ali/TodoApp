@@ -1,6 +1,6 @@
 # TodoApp
 
-### cloning the repository 
+## Cloning the repository 
 to clone the repository issue the following command 
 
 `git clone https://github.com/khurshid-ali/TodoApp.git`
