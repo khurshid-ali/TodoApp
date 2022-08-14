@@ -5,8 +5,19 @@ using TodoApp.Domain.Data;
 using TodoApp.Domain.Exceptions;
 using TodoApp.Domain.Interfaces;
 using TodoApp.Domain.Services;
+using Serilog;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+//configure serilog 
+Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console(outputTemplate:"[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+                .CreateBootstrapLogger();
+
+builder.Host
+    .UseSerilog();
+
 
 // Add services to the container.
 
@@ -19,6 +30,8 @@ builder.Services.AddDbContext<TodoContext>(options => {
 builder.Services.AddScoped<ITodoService, TodoService>();
 
 builder.Services.AddControllersWithViews();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,6 +62,8 @@ app.Use(
             int code = (int) HttpStatusCode.InternalServerError;
             context.Response.StatusCode = code;            
             await context.Response.WriteAsync(ex.ToJson(code));
+
+            Log.Error(ex.Message);
         }
         
     }

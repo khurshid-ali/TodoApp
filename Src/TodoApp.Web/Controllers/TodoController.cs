@@ -69,7 +69,7 @@ public class TodoController : ControllerBase
     [HttpPatch]
     [Route("{id}")]
     public async Task<TodoItem> UpdateItem(int id, [FromBody] List<KeyValuePair<string,string>> modifiedFields)
-    {  
+    { 
         return await _todoService.UpdateAsync(id, modifiedFields);
 
     }

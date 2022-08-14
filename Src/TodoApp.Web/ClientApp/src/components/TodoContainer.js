@@ -7,6 +7,7 @@ import Alert from 'react-bootstrap/Alert';
 function TodoContainer(props) {
     const [items, setItems] = useState([]);
     const [errors, setError] = useState('');
+    const [showErrorAlert, setShow] = useState(false);
     
     const stackStyle = {
         marginTop:'20px',
@@ -32,18 +33,22 @@ function TodoContainer(props) {
 
     useEffect(() => {
         async function getData() {
-            const response = await fetch('todo');
-            if (response.ok){
-                const data = await response.json();
-                setSortedItems(data);
-            }
-            else {
-                console.log("Errors occured while retrieveing the list.")
-                setError("Error: Could not retrieve List.");
-            }
-            
-        };
+            try {
 
+                const response = await fetch('todo');
+                if (response.ok){
+                    const data = await response.json();
+                    setSortedItems(data);
+                }
+                else {
+                    throw "Errors occured while retrieveing the list.";
+                }
+
+            } catch (exc) {
+                handleError(exc);
+            }
+        };
+        
         getData();
     }, []);
 
@@ -51,112 +56,126 @@ function TodoContainer(props) {
         addItem()
     */
     const addItem = async item => {
-        const response = await fetch('todo', 
-            {
-                method:'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    description: item.description
-                })
-            }
-        );
+        try {
+            const response = await fetch('todo', 
+                {
+                    method:'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        description: item.description
+                    })
+                }
+            );
 
-        if (response.ok){
+            if (!response.ok){
+                throw 'Error: Could not add item to db.';
+            }
+            
+
             const createdItem = await response.json();
             const newItems = [createdItem, ...items];
             setSortedItems(newItems);
-        }
-        else {
-            setError("Error: Could not add item to db.");
-            console.log("Could not add item to db. Error: " + response.statusText);
-        }
-        
+        }catch (exc){
+            handleError(exc);
+        }        
     };
 
     /*
         editItem()
     */
     const editItem = async item => {
-        const patchResp = await fetch('todo/' + item.id, {
-            method:'PATCH',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body:JSON.stringify([
-                {Key: 'Description',Value: item.description}
-            ])
-        });
 
-        if (patchResp.ok){
+        try {
+
+            const patchResp = await fetch('todo/' + item.id, {
+                method:'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify([
+                    {Key: 'Description',Value: item.description}
+                ])
+            });
+    
+            if (!patchResp.ok){
+                
+                throw 'Error: Could not update item.';
+            }
+            
             const entity = await patchResp.json(); 
             let updatedItems = [...items].filter(x => x.id !== item.id);
             updatedItems.push(entity);
             setSortedItems(updatedItems);
 
+        } catch (exc) {
+            handleError(exc);
         }
-        else {
-            setError('Error: Could not update item.');
-            console.log("Could not update item with id " + item.id + " error: " + patchResp.statusText);
-        }
-        console.log("Edit item " + item.id + "value:" + item.description);
     };
 
     /*
         deleteItem()
     */
     const deleteItem = async id => {
+        try {
+            const delResp = await fetch('todo/'+id, {
+                method:'DELETE'
+            });
+            
+            if (!delResp.ok)
+            {
+                throw 'Error: Could not delete item.';
+            }
+            
 
-        const delResp = await fetch('todo/'+id, {
-            method:'DELETE'
-        });
-
-        console.log(delResp);
-        
-        if (delResp.ok)
-        {
             console.log("delete item " + id);
             const newArray = [...items].filter(x => x.id !== id);
             setSortedItems(newArray);
-        }
-        else 
-        {
-            setError('Error: Could not delete item.');
-            console.log('Could not delete item with id ' + id + '. Error : ' + delResp.statusText);
-        }
+
+        } catch(exc) {
+            handleError(exc);
+        }        
     };
 
     /*
         completeItem()
     */
     const completeItem = async id => {
-
-        const completeResp = await fetch('todo/' + id, {
-            method:'PATCH',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body:JSON.stringify([
-                {Key: 'IsComplete',Value: 'true'}
-            ])
-        });
-
-        if (completeResp.ok) {
+        try {
+            const completeResp = await fetch('todo/' + id, {
+                method:'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify([
+                    {Key: 'IsComplete',Value: 'true'}
+                ])
+            });
+    
+            if (!completeResp.ok) {
+                throw 'Error: Could not mark item with id ' + id +  ' as complete.';
+            }
+            
+            
             console.log("complete item " + id);
             const updatedItem = await completeResp.json();
             let updatedItems = [...items].filter(x => x.id !== id);
             updatedItems.push(updatedItem);
-            setSortedItems(updatedItems);           
-        }
-        else 
-        {
-            setError('Error: Could not mark item as complete.');
-            console.log("Could not update item with id " + id + " error: " + completeResp.statusText);
+            setSortedItems(updatedItems);
+
+        } catch (exc) {
+            handleError(exc)
         }        
+    };
+
+    const handleError = error => {
+        setShow(true);
+        setError(error);
+        console.error(error);
     };
 
 
@@ -170,9 +189,9 @@ function TodoContainer(props) {
                 <ItemEditor onAdd={addItem}/>
             </div>
 
-            {errors ? (
+            {errors && showErrorAlert ? (
                     <div style={{marginTop:'10px',paddingTop:'20px'}}>
-                        <Alert variant='danger'>{errors}</Alert>
+                        <Alert variant='danger' onClose={() => setShow(false)} dismissible>{errors}</Alert>
                     </div>
                 ):            
                 null       
