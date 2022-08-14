@@ -1,6 +1,6 @@
 using TodoApp.Domain.Models;
 
-namespace TodoApp.Web.Data;
+namespace TodoApp.Domain.Data;
 
 public static class DbInitializer
 {

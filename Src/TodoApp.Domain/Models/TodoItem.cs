@@ -1,7 +1,9 @@
 
-
 namespace TodoApp.Domain.Models
 {
+    /// <summary>
+    /// Todo Item Model
+    /// </summary>
     public class TodoItem
     {
         

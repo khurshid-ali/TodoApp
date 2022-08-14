@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TodoApp.Web.Data;
+using TodoApp.Domain.Data;
 
 #nullable disable
 
@@ -16,7 +16,7 @@ namespace TodoApp.Web.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0-preview.7.22376.2");
 
-            modelBuilder.Entity("TodoApp.Web.Models.TodoItem", b =>
+            modelBuilder.Entity("TodoApp.Domain.Models.TodoItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

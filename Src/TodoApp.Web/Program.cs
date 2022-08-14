@@ -1,17 +1,22 @@
 using System.Net;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using TodoApp.Web.Data;
+using TodoApp.Domain.Data;
 using TodoApp.Domain.Exceptions;
+using TodoApp.Domain.Interfaces;
+using TodoApp.Domain.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+//Register the dbContext
 builder.Services.AddDbContext<TodoContext>(options => {
-    options.UseSqlite($"Data Source={Path.Join(Environment.CurrentDirectory, "todo-app.db")}");
+    options.UseSqlite($"Data Source={Path.Join(Environment.CurrentDirectory, "todo-app.db")}", b => b.MigrationsAssembly("TodoApp.Web"));
 });
 
+//Register the TodoService
+builder.Services.AddScoped<ITodoService, TodoService>();
 
 builder.Services.AddControllersWithViews();
 var app = builder.Build();

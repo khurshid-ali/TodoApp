@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TodoApp.Web.Data;
 using TodoApp.Domain.Models;
-using TodoApp.Domain.Exceptions;
+using TodoApp.Domain.Interfaces;
 
 namespace TodoApp.Web.Controllers;
 
@@ -15,10 +13,12 @@ namespace TodoApp.Web.Controllers;
 [Route("[controller]")]
 public class TodoController : ControllerBase
 {
-    private TodoContext _dbContext;
-    public TodoController(TodoContext dbContext)
+    //private TodoContext _dbContext;
+    private ITodoService _todoService;
+    
+    public TodoController(ITodoService todoService)
     {
-        _dbContext = dbContext;
+        _todoService = todoService;
     }
 
     /// <summary>
@@ -29,11 +29,7 @@ public class TodoController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<TodoItem>> GetAllAsync()
     {
-        return await _dbContext
-            .TodoItems
-            .OrderBy(item => item.IsComplete)
-            .ThenBy(item => item.Id)
-            .ToListAsync();
+        return await _todoService.GetAllAsync();
     }
 
 
@@ -48,14 +44,7 @@ public class TodoController : ControllerBase
     [Route("{id}")]
     public async Task<TodoItem> GetItemAsync(int id)
     {
-        var result = await _dbContext
-            .TodoItems
-            .FirstOrDefaultAsync(item => item.Id == id);
-
-        if(result == null)
-            throw new ItemNotFoundException($"Could not find item with id {id}");
-        
-        return result;
+       return await _todoService.GetByIdAsync(id);
 
     }
 
@@ -68,11 +57,7 @@ public class TodoController : ControllerBase
     [HttpPost]
     public async Task<TodoItem> CreateItemAsync([FromBody] TodoItem item)
     {
-        var createdItem = await _dbContext.TodoItems.AddAsync(item);
-
-        await _dbContext.SaveChangesAsync();
-
-        return createdItem.Entity;
+        return await _todoService.CreateAsync(item);
     }
 
     /// <summary>
@@ -85,20 +70,7 @@ public class TodoController : ControllerBase
     [Route("{id}")]
     public async Task<TodoItem> UpdateItem(int id, [FromBody] List<KeyValuePair<string,string>> modifiedFields)
     {  
-        var dbVersion = await _dbContext.TodoItems.FirstOrDefaultAsync(dbItem => dbItem.Id == id);
-
-        if(dbVersion == null)
-            throw new ItemNotFoundException($"Could not find item with id {id}");
-        
-        foreach(var field in modifiedFields)
-        {
-            var propInfo = dbVersion.GetType().GetProperty(field.Key);
-            if (propInfo != null) 
-                propInfo.SetValue(dbVersion, Convert.ChangeType(field.Value, propInfo.PropertyType));
-        }
-
-        await _dbContext.SaveChangesAsync();        
-        return dbVersion;
+        return await _todoService.UpdateAsync(id, modifiedFields);
 
     }
 
@@ -114,12 +86,8 @@ public class TodoController : ControllerBase
     [Route("{id}")]
     public async Task DeleteAsync(int id)
     {
-        var entityToDelete = await _dbContext.TodoItems.FirstOrDefaultAsync(dbItem => dbItem.Id == id);
-        if (entityToDelete == null)
-            throw new ItemNotFoundException($"Could not find item with id {id}");
+        await _todoService.DeleteAsync(id);
 
-        _dbContext.Entry(entityToDelete).State = EntityState.Deleted;
-        await _dbContext.SaveChangesAsync();
     }
 
 }
