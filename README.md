@@ -29,7 +29,8 @@ Issue the following command to build the app and put all into the `build` subfol
 
 `dotnet publish -o build -c Release`
 
-change directory into the build folder 
+change directory into the build folder
+
 `cd build`
 
 Run the application by issueing the command 
