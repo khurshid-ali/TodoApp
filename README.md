@@ -7,21 +7,7 @@ to clone the repository issue the following command
 
 Once the repository is cloned, the code will be cloned in the TodoApp subdirectory. 
 
-### Running the application in Development Mode
-
-Afte cloning the repo. Change directory to TodoApp directory. This directory will contain the `TodoApp.Sln`
-
-issue the following command to run the application. 
-
-`dotnet run --project Src/TodoApp.Web/TodoApp.Web.csproj`
-
-The todo application will be listening on the port 5228 on localhost so redirect your browser to 
-
-[http://localhost:5228](http://localhost:5228)
-
-The todo app should load up. 
-
-### Running the application in Release mode 
+## Running the application in Release mode 
 
 Afte cloning the repo. Change directory to TodoApp directory. This directory will contain the `TodoApp.Sln`
 
@@ -41,7 +27,24 @@ The application will be running in the url
 [https://localhost:5001](https://localhost:5001)
 
 
-### Requirements
+## Running the application in Development Mode
+
+Afte cloning the repo. Change directory to TodoApp directory. This directory will contain the `TodoApp.Sln`
+
+issue the following command to run the application. 
+
+`dotnet run --project Src/TodoApp.Web/TodoApp.Web.csproj`
+
+The todo application will be listening on the port 5228 on localhost so redirect your browser to 
+
+[http://localhost:5228](http://localhost:5228)
+
+The todo app should load up. 
+
+
+
+
+## Requirements
 
 We would like you to create a production-level to-do application using the framework of your choice. The to-do application should be capable of the following functions:
 
