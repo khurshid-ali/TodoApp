@@ -1,9 +1,24 @@
 # TodoApp
 
-### Running the application
-dotnet run 
+### cloning the repository 
+to clone the repository issue the following command 
 
-direct your browser to https://localhost:44497/
+`git clone https://github.com/khurshid-ali/TodoApp.git`
+
+### Running the application
+
+Navigate to the folder where the repo is cloned. The correct directory is where the `TodoApp.sln` file is locacted.
+
+issue the following command 
+
+`dotnet run --project Src/TodoApp.Web/TodoApp.Web.csproj`
+
+The todo application will be listening on the port 5228 on localhost so redirect your browser to 
+
+http://localhost:5228
+
+The todo app should load up. 
+
 
 ### Requirements
 
