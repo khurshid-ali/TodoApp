@@ -5,11 +5,13 @@ to clone the repository issue the following command
 
 `git clone https://github.com/khurshid-ali/TodoApp.git`
 
+Once the repository is cloned, the code will be cloned in the TodoApp subdirectory. 
+
 ### Running the application
 
-Navigate to the folder where the repo is cloned. The correct directory is where the `TodoApp.sln` file is locacted.
+Afte cloning the repo. Change directory to TodoApp directory. This directory will contain the `TodoApp.Sln`
 
-issue the following command 
+issue the following command to run the application. 
 
 `dotnet run --project Src/TodoApp.Web/TodoApp.Web.csproj`
 
