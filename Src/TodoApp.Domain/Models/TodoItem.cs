@@ -1,6 +1,6 @@
 
 
-namespace TodoApp.Web.Models
+namespace TodoApp.Domain.Models
 {
     public class TodoItem
     {

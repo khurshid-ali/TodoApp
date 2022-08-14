@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Web.Data;
-using TodoApp.Web.Models;
+using TodoApp.Domain.Models;
 using TodoApp.Domain.Exceptions;
 
 namespace TodoApp.Web.Controllers;

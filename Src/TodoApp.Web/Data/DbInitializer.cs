@@ -1,4 +1,4 @@
-using TodoApp.Web.Models;
+using TodoApp.Domain.Models;
 
 namespace TodoApp.Web.Data;
 

@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using TodoApp.Web.Models;
+using TodoApp.Domain.Models;
 
 namespace TodoApp.Web.Data
 {
-    public class TodoContext : DbContext
+    public class TodoContext : DbContext 
     {
         public DbSet<TodoItem> TodoItems {get;set;} = null!;
 
