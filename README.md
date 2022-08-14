@@ -17,7 +17,7 @@ issue the following command to run the application.
 
 The todo application will be listening on the port 5228 on localhost so redirect your browser to 
 
-http://localhost:5228
+[http://localhost:5228](http://localhost:5228)
 
 The todo app should load up. 
 
@@ -37,7 +37,8 @@ Run the application by issueing the command
 
 `dotnet TodoApp.Web.dll`
 
-The application will be running in the url https://localhost:5001
+The application will be running in the url 
+[https://localhost:5001](https://localhost:5001)
 
 
 ### Requirements
