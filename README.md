@@ -44,8 +44,9 @@ this will create a docker image.
 
 Run the image with the following command 
 
-`docker run -p 9080:80 todoapp`
+`docker run -d -p 9080:80 todoapp`
 
+once running navigate your browser to http://localhost:9080
 
 ## Running the application in Development Mode
 
