@@ -7,6 +7,10 @@ to clone the repository issue the following command
 
 Once the repository is cloned, the code will be cloned in the TodoApp subdirectory. 
 
+## Requirments
+Node.js
+Dotnet 6.0 
+
 ## Running the application in Release mode 
 
 Afte cloning the repo. Change directory to TodoApp directory. This directory will contain the `TodoApp.Sln`
@@ -25,6 +29,22 @@ Run the application by issueing the command
 
 The application will be running in the url 
 [https://localhost:5001](https://localhost:5001)
+
+## Running it in a Docker Container 
+
+You will need docker installed locally.
+
+Afte cloning the repo. Change directory to TodoApp directory. This directory will contain the `TodoApp.Sln`
+
+Build the image 
+
+`docker build . -t todoapp`
+
+this will create a docker image. 
+
+Run the image with the following command 
+
+`docker run -p 9080:80 todoapp`
 
 
 ## Running the application in Development Mode
